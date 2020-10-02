@@ -70,6 +70,8 @@ public class Client {
                      invalid=true;
              }
 
+            System.out.println("v="+v+" h="+h+" o"+" invalid=" + );
+
              if(invalid)
                  System.out.println("Command Invalid");
 
