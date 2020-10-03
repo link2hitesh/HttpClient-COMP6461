@@ -52,32 +52,34 @@ public class Client {
         boolean v=false, h=false, o=false, invalid=false;
         Map<String, String> responseMap;
         String file=null;
-        String get_url=null;
-        ArrayList<String> headerList= new ArrayList<String>();
+        String url=null;
+        List<String> headers= getHeaders(splitRequest);
+        //System.out.println(headers);
 
         try{
              if(splitRequest.size()>3)
              {
                  if(splitRequest.contains("-v"))
                  v=true;
-                 else if(splitRequest.contains("-h"))
+                 if(splitRequest.contains("-h"))
                      h=true;
-                 else if(splitRequest.contains("-o"))
-                     o=true;
-                 else if(splitRequest.contains("-d"))
-                     invalid=true;
-                 else if(splitRequest.contains("-f"))
+                 if(splitRequest.contains("-o"))
+                 {
+                     o = true;
+                     file= splitRequest.get(splitRequest.size()-1);
+                 }
+                 if(splitRequest.contains("-d") || splitRequest.contains("-f"))
                      invalid=true;
              }
 
-            System.out.println("v="+v+" h="+h+" o"+" invalid=" + );
-
+            //System.out.println("v="+v+" h="+h+" o="+o+" invalid=" +invalid );
              if(invalid)
                  System.out.println("Command Invalid");
-
-             else{
-
-             }
+             else
+                 {
+                    url=getURL(o,splitRequest);
+                     System.out.println(url);
+                }
          }
         catch(Exception e)
         {
@@ -88,11 +90,50 @@ public class Client {
 
     public static void post(List<String> splitRequest)
     {
-        System.out.println("post");
+        boolean v=false, h=false, o=false, invalid=false;
+        Map<String, String> responseMap;
+        String file=null;
+        String post_url=null;
+        String data = null;
     }
 
     public static void printHelpMenu()
     {
         System.out.println("help");
     }
+
+
+   public static List<String> getHeaders(List<String> splitHeaders)
+   {
+       List<String> Headers= new ArrayList<String>();
+       for(int i=0; i<splitHeaders.size(); i++)
+       {
+           if(splitHeaders.get(i).equals("-h"))
+           {
+               Headers.add(splitHeaders.get(i+1));
+               i++;
+           }
+       }
+       return Headers;
+   }
+   public static String getURL(boolean o, List<String>splitRequest)
+   {
+       String url="";
+       if (o)
+       {
+           int length = splitRequest.size();
+          //System.out.println(length);
+           url = splitRequest.get(length - 3);
+           //System.out.println(url);
+       }
+
+       else {
+           int length = splitRequest.size();
+           //System.out.println(length);
+           url = splitRequest.get(length - 1);
+           //System.out.println(url);
+       }
+       return url;
+   }
+
 }
